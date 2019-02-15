@@ -3,6 +3,7 @@ import pygame
 import random
 from PIL import Image
 import pygame.image as pim
+import json
 cell_X = int(input())
 if cell_X < 16:
     cell_X = 16
@@ -155,24 +156,30 @@ codificator  = {'-1': None, '0': None, '1': 'brick_floor', '2': 'scnd_brick_floo
                 '25': 'steel_door', '26': 'steel_locked_door', '27': 'purpure_plate', '28': 'brick_floor', '29': 'tip', '30': 'red_plate', '31': 'brick_floor', '32': 'blue_plate',
                 '33': 'brick_floor', '34': 'scnd_hole', '35': 'brick_monument', '36': 'wood_monument', '37': 'moody_plate', '38': 'brick_floor', '39': 'white_plate', '40': 'brick_floor',
                 '41': 'book_shelf', '42': 'kolodecz', '43': 'pit', '44': 'pillar', '45': 'moody_wall', '46': 'moody_mono_wall', '47': 'secret_floor'}
-item_codificator = {0: 'bones', 1: 'christ', 2: 'sworld', 3: 'magic_wend', 4: 'bread', 5: 'weapon_shadow', 6: 'armour_shadow', 7: 'ring_shadow',
+item_codificator = {-1: None, 0: 'bones', 1: 'christ', 2: 'sworld', 3: 'magic_wend', 4: 'bread', 5: 'weapon_shadow', 6: 'armour_shadow', 7: 'ring_shadow',
                     8: 'bone_key', 9: 'silver_key', 10: 'gold_key', 11: 'standart_chest', 12: 'key_chest', 13: 'rip_stone', 14: 'coins', 15: 'battle_star',
                     16: 'knuckle', 17: 'stick', 18: 'mace', 19: 'small_sworld', 20: 'middle_sworld', 21: 'big_sworld', 22: 'battle_axe', 23: 'battle_hammer',
                     24: 'fabric_armour', 25: 'leather_armour', 26: 'chain_armor', 27: 'gold_armour', 28: 'silver_armour', 29: 'small_spear', 30: 'big_spear', 31: 'arrow',
-                    32: 'glass_ring', 33: 'dimond_ring', 34: 'topaz_ring', 35: 'ruby_ring', 36: ''}
+                    32: 'glass_ring', 33: 'dimond_ring', 34: 'topaz_ring', 35: 'ruby_ring', 36: 'silver_ring', 37: 'star_ring', 38: 'black_ring', 39: 'night_ring',
+                    40: 'scroll_1', 41: ' scroll_2', 42: 'scroll_3', 43: 'scroll_4', 44: 'scroll_5', 45: 'scroll_6', 46: 'scroll_7', 47: 'scroll_8',
+                    48: 'magic_wend_1', 49: 'magic_wend_2', 50: 'magic_wend_3', 51: 'magic_wend_4', 52: 'magic_wend_5', 53: 'magic_wend_6', 54: 'magic_wend_7', 55: 'magic_wend_8',
+                    56: 'light_blue_potion', 57:'red_potion', 58: 'blue_potion', 59: 'green_potion', 60: 'light_green_potion', 61: 'blood_potion', 62:'black_potion', 63:'white_potion',
+                    64: 'orange_potion', 65: 'mood_potion', 66: 'purpure_potion', 67: 'grey_potion' , 88: 'orange_seed', 89: 'blue_seed', 70: 'purpure_seed', 71: 'yellow_seed',
+                    72: 'green_seed', 73: 'brown_seed', 74: 'white_seed', 75: 'red_seed', 76: 'pie', 77: 'raw_meat', 78: 'coocked_meat', 79: 'bread', 80: 'bio_mass'}
 
-ark = {'next level': input(), 'start_position': {}, "width": cell_X, "height": cell_Y, "board": []}
+ark = {'next level': int(input()), 'start_position': {}, "width": cell_X, "height": cell_Y, "board": None}
 for y in range(cell_Y - 12):
-   for x in range(cell_X):
+    for x in range(cell_X):
         cell = {}
-        cell['block'] = codificator[board]
+        cell['block'] = codificator[str(plate[y][x])]
+        cell['items'] = item_codificator[item_plate[y][x]]
+        cell['mobs'] = []
+        plate[y][x] = cell
+ark['board'] = plate[:cell_Y - 12]
+credo = json.dumps(ark, indent=4)
 
-
-
-
-
-
-
+with open('ark.json', mode='w+') as f:
+    f.write(credo)
 
 
 
